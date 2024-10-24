@@ -1,0 +1,17 @@
+version: '3'
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - SUBDOMAIN=Jotys  # Ganti "namakamu" dengan nama kamu
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:5173"
+    environment:
+      - NODE_ENV=production
+      - SUBDOMAIN=Jotys  # Ganti "namakamu" dengan nama kamu
