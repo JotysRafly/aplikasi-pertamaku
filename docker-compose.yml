@@ -1,18 +1,19 @@
 version: '3'
 services:
-  backend:
-    build: ./backend
-    ports:
-      - "3000:3000"  # Hanya dapat diakses oleh Nginx
-    environment:
-      - NODE_ENV=production
-    networks:
-      - app-network
-
   frontend:
     build: ./frontend
     ports:
-      - "5173:5173"  # Hanya dapat diakses oleh Nginx
+      - "5173:5173"
+    environment:
+      - NODE_ENV=production
+      - BASE_URL=/Jotys
+    networks:
+      - app-network
+
+  backend:
+    build: ./backend
+    ports:
+      - "3000:3000"
     environment:
       - NODE_ENV=production
     networks:
@@ -21,14 +22,13 @@ services:
   nginx:
     image: nginx:latest
     ports:
-      - "80:80"  # Mengekspos Nginx di port 80 untuk akses publik
+      - "80:80"  # Pastikan Nginx berjalan di port 80
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf  # Menghubungkan konfigurasi Nginx
-    depends_on:
-      - backend
-      - frontend
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
     networks:
       - app-network
+    environment:
+      - SUBDOMAIN=Jotys
 
 networks:
   app-network:
